@@ -1,24 +1,24 @@
 import React from 'react';
-import {StatusBar, SafeAreaView,View,  StyleSheet, Text} from 'react-native';
+import {StatusBar, SafeAreaView, View, StyleSheet, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import QuickNav from './QuickNav';
 import Announcements from './Announcements';
 import Tasks from './Tasks';
 import Footer from './Footer';
-function HomeScreen() {
+function HomeScreen({navigation}) {
   return (
-      <LinearGradient
-        colors={['#BAC1FF', '#608DFF', '#336CFF']}
-        style={styles.linearGradient}>
-          <StatusBar translucent backgroundColor="transparent" />
-          <SafeAreaView style={styles.main}>
-            <Text style={styles.title}>3D Printing Club</Text>
-            <QuickNav />
-            <Announcements />
-            <Tasks />
-            <Footer />
-          </SafeAreaView>
-        </LinearGradient>
+    <LinearGradient
+      colors={['#BAC1FF', '#608DFF', '#336CFF']}
+      style={styles.linearGradient}>
+      <StatusBar translucent backgroundColor="transparent" />
+      <SafeAreaView style={styles.main}>
+        <Text style={styles.title}>3D Printing Club</Text>
+        <QuickNav navigation={navigation} />
+        <Announcements />
+        <Tasks navigation={navigation} />
+        <Footer navigation={navigation} />
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 

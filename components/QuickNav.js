@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-function QuickNav() {
+function QuickNav({navigation}) {
   return (
     <View>
       <ScrollView horizontal={true} style={styles.scrollView}>
@@ -16,24 +16,18 @@ function QuickNav() {
           <View style={styles.shadow}>
             <TouchableOpacity
               style={styles.navBorder}
-              onPress={() => alert('This is a button!')}>
+              onPress={() => navigation.navigate('PrinterStatus')}>
               <Text style={styles.infoText}>Printer Status</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.shadow}>
             <TouchableOpacity
               style={styles.navBorder}
-              onPress={() => alert('This is a button!')}>
+              onPress={() => navigation.navigate('Members')}>
               <Text style={styles.infoText}>Members</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.shadow}>
-            <TouchableOpacity
-              style={styles.navBorder}
-              onPress={() => alert('This is a button!')}>
-              <Text style={styles.infoText}>Recent</Text>
-            </TouchableOpacity>
-          </View>
+
           <View style={styles.shadow}>
             <TouchableOpacity
               style={styles.navBorder}
@@ -48,14 +42,13 @@ function QuickNav() {
 }
 
 const styles = StyleSheet.create({
-
   nav: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   scrollView: {
     marginLeft: 10,
-    },
+  },
 
   infoText: {
     color: 'white',

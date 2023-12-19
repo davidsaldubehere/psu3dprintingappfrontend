@@ -1,6 +1,6 @@
 import {View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-function Footer() {
+function Footer({navigation}) {
   return (
     <View style={styles.container}>
       <Icon.Button
@@ -13,12 +13,14 @@ function Footer() {
         name="home"
         size={20}
         backgroundColor="transparent"
+        onPress={() => navigation.navigate('Home')}
         style={styles.button}
       />
       <Icon.Button
         name="message1"
         size={20}
         backgroundColor="transparent"
+        onPress={() => navigation.navigate('Message')}
         style={styles.button}
       />
     </View>
