@@ -44,7 +44,7 @@ function CreateAccount({navigation}) {
 
   const handleLogin = () => {
     if (validateForm()) {
-      fetch('http://127.0.0.1:8000/users/', {
+      fetch('http://127.0.0.1:8000/users/create/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,6 +105,7 @@ function CreateAccount({navigation}) {
             <Text style={styles.error}>{passwordError}</Text>
           ) : null}
           <Button title="Sign Up" onPress={handleLogin} />
+          <Button title="Back to Login" onPress={() => navigation.goBack()} />
         </View>
       </SafeAreaView>
     </LinearGradient>

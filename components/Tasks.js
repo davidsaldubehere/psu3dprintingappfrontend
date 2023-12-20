@@ -9,17 +9,17 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/AntDesign';
-function Task({navigation}) {
+import {useState, useContext, useCallback, useEffect} from 'react';
+import {AuthContext} from './AuthContext';
+
+function Task({navigation, taskTitle, textInfo}) {
   //create a state for the actual task text
 
   return (
     <View style={styles.shadow}>
       <View>
-        <Text style={styles.taskText}>Task Text</Text>
-        <Text style={styles.textInfo}>
-          Take notes during the meeting and then post them as a PDF to the
-          Google Drive so we can all access them. you know what to dod it aj
-        </Text>
+        <Text style={styles.taskText}>{taskTitle}</Text>
+        <Text style={styles.textInfo}>{textInfo}</Text>
       </View>
       <View>
         <Icon.Button
@@ -38,13 +38,32 @@ function Task({navigation}) {
   );
 }
 function Tasks({navigation}) {
+  const [tasks, setTasks] = useState([]);
+  const authContext = React.useContext(AuthContext);
+  useEffect(() => {
+    console.log(authContext.authState.accessToken);
+    fetch('http://127.0.0.1:8000/tasks/', {
+      headers: {
+        Authorization: `Token ${authContext.authState.accessToken}`, //something is going wrong here
+      },
+    })
+      .then(response => response.json())
+      .then(data => setTasks(data))
+      .catch(error => console.error(error));
+  }, []);
+
   return (
     <View>
       <Text style={styles.title}>Current Projects</Text>
       <ScrollView style={styles.scrollView}>
-        <Task navigation={navigation} />
-        <Task navigation={navigation} />
-        <Task navigation={navigation} />
+        {tasks.map(task => (
+          <Task
+            key={task.id}
+            navigation={navigation}
+            taskTitle={task.title}
+            textInfo={task.name}
+          />
+        ))}
       </ScrollView>
     </View>
   );

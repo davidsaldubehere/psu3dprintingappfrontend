@@ -19,7 +19,7 @@ function Members({navigation}) {
   const [users, setUsers] = useState([]);
   const authContext = React.useContext(AuthContext);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/users', {
+    fetch('http://127.0.0.1:8000/users/', {
       headers: {
         Authorization: `Token ${authContext.authState.accessToken}`,
       },
@@ -39,7 +39,9 @@ function Members({navigation}) {
           {users.map(user => (
             <View key={user.id} style={styles.shadow}>
               <View style={styles.textContainer}>
-                <Text style={styles.name}>{user.username}</Text>
+                <Text style={user.is_staff ? styles.officer : styles.name}>
+                  {user.username}
+                </Text>
                 <Text style={styles.textInfo}>{user.email}</Text>
               </View>
             </View>
@@ -66,7 +68,6 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 22,
-    fontWeight: 'bold',
   },
   image: {
     width: 300,
@@ -90,6 +91,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.63)',
     borderRadius: 10,
+  },
+  officer: {
+    fontSize: 22,
+    fontWeight: 'bold',
   },
 });
 
