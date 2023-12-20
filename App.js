@@ -11,6 +11,7 @@ import LoginPage from './components/Login';
 import CreateAccount from './components/CreateAccount';
 import Process from './components/Process';
 import Profile from './components/Profile';
+import UpdateTask from './components/UpdateTask';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -55,6 +56,11 @@ function App() {
         <Stack.Screen
           name="CreateAccount"
           component={CreateAccount}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="UpdateTask"
+          component={UpdateTask}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

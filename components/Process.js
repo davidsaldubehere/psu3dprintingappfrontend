@@ -6,6 +6,8 @@ import QuickNav from './QuickNav';
 import Announcements from './Announcements';
 import Tasks from './Tasks';
 import Footer from './Footer';
+import Login from './Login';
+import HomeScreen from './HomeScreen';
 import * as Keychain from 'react-native-keychain';
 
 import {AuthContext} from './AuthContext';
@@ -44,9 +46,9 @@ function Process({navigation}) {
   }
 
   if (authContext?.authState?.authenticated === false) {
-    navigation.navigate('Login');
+    return <Login navigation={navigation} />;
   } else {
-    navigation.navigate('Home');
+    return <HomeScreen navigation={navigation} />;
   }
 }
 const styles = StyleSheet.create({

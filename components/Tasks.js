@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {useState, useContext, useCallback, useEffect} from 'react';
+import {useState, useContext, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {AuthContext} from './AuthContext';
 
-function Task({navigation, taskTitle, textInfo}) {
+function Task({navigation, taskTitle, textInfo, editPerms, id}) {
   //create a state for the actual task text
-
   return (
     <View style={styles.shadow}>
       <View>
@@ -22,6 +22,18 @@ function Task({navigation, taskTitle, textInfo}) {
         <Text style={styles.textInfo}>{textInfo}</Text>
       </View>
       <View>
+        {editPerms && (
+          <Icon.Button
+            name="edit"
+            size={20}
+            backgroundColor="transparent"
+            onPress={() =>
+              navigation.navigate('UpdateTask', {
+                id: `${id}`,
+              })
+            }
+          />
+        )}
         <Icon.Button
           name="check"
           size={20}
@@ -31,7 +43,6 @@ function Task({navigation, taskTitle, textInfo}) {
               presetMessage: 'Hi, I would like to volunteer for example task',
             })
           }
-          style={styles.button}
         />
       </View>
     </View>
@@ -39,29 +50,64 @@ function Task({navigation, taskTitle, textInfo}) {
 }
 function Tasks({navigation}) {
   const [tasks, setTasks] = useState([]);
+  const [editPerms, setEditPerms] = useState(false);
   const authContext = React.useContext(AuthContext);
-  useEffect(() => {
-    console.log(authContext.authState.accessToken);
-    fetch('http://127.0.0.1:8000/tasks/', {
-      headers: {
-        Authorization: `Token ${authContext.authState.accessToken}`, //something is going wrong here
-      },
-    })
-      .then(response => response.json())
-      .then(data => setTasks(data))
-      .catch(error => console.error(error));
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const tasksResponse = await fetch('http://127.0.0.1:8000/tasks/', {
+            headers: {
+              Authorization: `Token ${authContext.authState.accessToken}`,
+            },
+          });
+          const tasksData = await tasksResponse.json();
+          setTasks(tasksData);
+
+          const editPermsResponse = await fetch(
+            'http://127.0.0.1:8000/users/is_staff/',
+            {
+              headers: {
+                Authorization: `Token ${authContext.authState.accessToken}`,
+              },
+            },
+          );
+          const editPermsData = await editPermsResponse.json();
+          setEditPerms(editPermsData.is_staff);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchData();
+    }, [authContext.authState.accessToken]),
+  );
 
   return (
     <View>
-      <Text style={styles.title}>Current Projects</Text>
+      <View>
+        <Text style={styles.title}>
+          Current Projects
+          {editPerms && (
+            <Icon.Button
+              name="edit"
+              size={20}
+              backgroundColor="transparent"
+              style={styles.button}
+            />
+          )}
+        </Text>
+      </View>
+
       <ScrollView style={styles.scrollView}>
         {tasks.map(task => (
           <Task
             key={task.id}
+            id={task.id}
             navigation={navigation}
             taskTitle={task.title}
             textInfo={task.name}
+            editPerms={editPerms}
           />
         ))}
       </ScrollView>
@@ -89,6 +135,7 @@ const styles = StyleSheet.create({
   textInfo: {
     fontSize: 12,
     marginLeft: 10,
+    marginRight: 20,
   },
   shadow: {
     flexDirection: 'row',
@@ -106,6 +153,11 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 7,
     marginBottom: 5,
+  },
+  button: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 5,
   },
 });
 
