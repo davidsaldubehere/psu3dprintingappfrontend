@@ -16,7 +16,6 @@ import {AuthContext} from './AuthContext';
 
 function Profile({navigation}) {
   const authContext = React.useContext(AuthContext);
-
   //color should be based on status
   return (
     <LinearGradient

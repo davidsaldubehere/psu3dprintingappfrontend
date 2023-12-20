@@ -17,10 +17,9 @@ function Process({navigation}) {
     try {
       const value = await Keychain.getGenericPassword();
       const jwt = JSON.parse(value.password);
-
       authContext.setAuthState({
-        accessToken: jwt.accessToken || null,
-        authenticated: jwt.accessToken !== null,
+        accessToken: jwt.token || null,
+        authenticated: jwt.token !== null,
       });
       setStatus('success');
     } catch (error) {
