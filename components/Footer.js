@@ -7,6 +7,7 @@ function Footer({navigation}) {
         name="setting"
         size={20}
         backgroundColor="transparent"
+        onPress={() => navigation.navigate('Profile')}
         style={styles.button}
       />
       <Icon.Button

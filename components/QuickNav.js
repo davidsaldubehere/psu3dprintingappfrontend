@@ -31,7 +31,7 @@ function QuickNav({navigation}) {
           <View style={styles.shadow}>
             <TouchableOpacity
               style={styles.navBorder}
-              onPress={() => alert('This is a button!')}>
+              onPress={() => navigation.navigate('Profile')}>
               <Text style={styles.infoText}>Profile</Text>
             </TouchableOpacity>
           </View>

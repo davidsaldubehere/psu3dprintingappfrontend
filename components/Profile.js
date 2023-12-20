@@ -5,9 +5,8 @@ import {
   View,
   StyleSheet,
   Text,
-  ImageBackground,
+  Button,
 } from 'react-native';
-import {useState, useContext, useCallback, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import QuickNav from './QuickNav';
 import Announcements from './Announcements';
@@ -15,36 +14,27 @@ import Tasks from './Tasks';
 import Footer from './Footer';
 import {AuthContext} from './AuthContext';
 
-function Members({navigation}) {
-  const [users, setUsers] = useState([]);
+function Profile({navigation}) {
   const authContext = React.useContext(AuthContext);
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/users', {
-      headers: {
-        Authorization: `Token ${authContext.authState.accessToken}`,
-      },
-    })
-      .then(response => response.json())
-      .then(data => setUsers(data))
-      .catch(error => console.error(error));
-  }, []);
 
+  //color should be based on status
   return (
     <LinearGradient
       colors={['#BAC1FF', '#608DFF', '#336CFF']}
       style={styles.linearGradient}>
       <SafeAreaView style={styles.main}>
-        <Text style={styles.title}>List of app members</Text>
-        <ScrollView style={styles.scrollView}>
-          {users.map(user => (
-            <View key={user.id} style={styles.shadow}>
-              <View style={styles.textContainer}>
-                <Text style={styles.name}>{user.username}</Text>
-                <Text style={styles.textInfo}>{user.email}</Text>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
+        <Text style={styles.title}>Settings</Text>
+        <View style={styles.shadow}>
+          <View style={styles.textContainer}>
+            <Text style={styles.name}>Authentication Status:</Text>
+            <Text style={styles.textInfo}>
+              {authContext.authState.authenticated
+                ? 'Logged in'
+                : 'Not logged in'}
+            </Text>
+          </View>
+        </View>
+        <Button title="Log out" onPress={() => authContext.logout()} />
         <Footer navigation={navigation} />
       </SafeAreaView>
     </LinearGradient>
@@ -93,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Members;
+export default Profile;
