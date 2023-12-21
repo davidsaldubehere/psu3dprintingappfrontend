@@ -1,47 +1,48 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
   Text,
-  TouchableOpacity,
   ScrollView,
   ImageBackground,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {AuthContext} from './AuthContext';
+function getRandomPastelColor() {
+  const hue = Math.floor(Math.random() * 30) + 230; // Adjust the range to generate purplish hues
+  const pastelColor = `hsl(${hue}, 50%, 80%)`;
+  return pastelColor;
+}
 
 function Announcements() {
+  const [announcements, setAnnouncements] = useState([]);
+  const authContext = React.useContext(AuthContext);
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/announcements/', {
+      headers: {
+        Authorization: `Token ${authContext.authState.accessToken}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => setAnnouncements(data))
+      .catch(error => console.error(error));
+  }, []);
+
   return (
     <View>
       <Text style={styles.title}>Announcements</Text>
       <ScrollView style={styles.scrollView} horizontal={true}>
-        <View style={styles.shadow}>
-          <ImageBackground
-            source={require('../assets/example1.jpeg')}
-            resizeMethod="cover"
-            style={styles.image}>
-            <View style={styles.textContainer}>
-              <Text style={styles.announcement}>Club Cancellation</Text>
-              <Text style={styles.textInfo}>
-                Do some more stuff that involves being cool and doing your job
-                ya know adsfafadhfadfafa faas fads as fs
-              </Text>
+        {announcements.map(announcement => (
+          <View key={announcement.id} style={styles.shadow}>
+            <View
+              style={[styles.image, {backgroundColor: getRandomPastelColor()}]}>
+              <View style={styles.textContainer}>
+                <Text style={styles.announcement}>{announcement.title}</Text>
+                <Text style={styles.textInfo}>{announcement.content}</Text>
+              </View>
             </View>
-          </ImageBackground>
-        </View>
-        <View style={styles.shadow}>
-          <ImageBackground
-            source={require('../assets/example1.jpeg')}
-            resizeMethod="cover"
-            style={styles.image}>
-            <View style={styles.textContainer}>
-              <Text style={styles.announcement}>Ender 3 Is Broken</Text>
-              <Text style={styles.textInfo}>
-                Do some more stuff that involves being cool and doing your job
-                ya know
-              </Text>
-            </View>
-          </ImageBackground>
-        </View>
+          </View>
+        ))}
       </ScrollView>
     </View>
   );
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%',
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(255, 255, 255, 0.63)',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
