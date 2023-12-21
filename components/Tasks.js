@@ -75,6 +75,7 @@ function Tasks({navigation}) {
           const editPermsData = await editPermsResponse.json();
           setEditPerms(editPermsData.is_staff);
         } catch (error) {
+          alert('Unable to reach server');
           console.error(error);
         }
       };
@@ -84,16 +85,17 @@ function Tasks({navigation}) {
   );
 
   return (
-    <View>
+    <View style={{flex: 0.9}}>
       <View>
         <Text style={styles.title}>
-          Current Projects
+          Current Club Projects
           {editPerms && (
             <Icon.Button
               name="edit"
               size={20}
               backgroundColor="transparent"
               style={styles.button}
+              onPress={() => navigation.navigate('CreateTask')}
             />
           )}
         </Text>
@@ -155,8 +157,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
     top: 5,
   },
 });

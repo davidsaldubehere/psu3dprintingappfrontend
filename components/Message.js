@@ -46,7 +46,7 @@ function Message({navigation, route}) {
           maintenance, or anything else pertaining the officers
         </Text>
         <TextInput
-          style={styles.message}
+          style={styles.input}
           placeholder={receivedData}
           value={message}
           onChangeText={setMessage}
@@ -81,16 +81,12 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: 'bold',
   },
-  message: {
-    margin: 20,
-    marginBottom: 0,
+
+  input: {
     borderRadius: 10,
     padding: 10,
     margin: 20,
-    marginBottom: 0,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.63)',
   },
   navBorder: {
     backgroundColor: '#749AF9',

@@ -14,7 +14,7 @@ import Announcements from './Announcements';
 import Tasks from './Tasks';
 import Footer from './Footer';
 import {AuthContext} from './AuthContext';
-
+import Background from './Background';
 function Members({navigation}) {
   const [users, setUsers] = useState([]);
   const authContext = React.useContext(AuthContext);
@@ -30,9 +30,7 @@ function Members({navigation}) {
   }, []);
 
   return (
-    <LinearGradient
-      colors={['#BAC1FF', '#608DFF', '#336CFF']}
-      style={styles.linearGradient}>
+    <Background>
       <SafeAreaView style={styles.main}>
         <Text style={styles.title}>List of app members</Text>
         <ScrollView style={styles.scrollView}>
@@ -49,7 +47,7 @@ function Members({navigation}) {
         </ScrollView>
         <Footer navigation={navigation} />
       </SafeAreaView>
-    </LinearGradient>
+    </Background>
   );
 }
 

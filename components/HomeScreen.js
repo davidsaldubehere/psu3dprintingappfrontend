@@ -5,11 +5,10 @@ import QuickNav from './QuickNav';
 import Announcements from './Announcements';
 import Tasks from './Tasks';
 import Footer from './Footer';
+import Background from './Background';
 function HomeScreen({navigation}) {
   return (
-    <LinearGradient
-      colors={['#BAC1FF', '#608DFF', '#336CFF']}
-      style={styles.linearGradient}>
+    <Background>
       <StatusBar translucent backgroundColor="transparent" />
       <SafeAreaView style={styles.main}>
         <Text style={styles.title}>3D Printing Club</Text>
@@ -18,7 +17,7 @@ function HomeScreen({navigation}) {
         <Tasks navigation={navigation} />
         <Footer navigation={navigation} />
       </SafeAreaView>
-    </LinearGradient>
+    </Background>
   );
 }
 

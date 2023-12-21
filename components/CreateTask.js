@@ -11,40 +11,18 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import {AuthContext} from './AuthContext';
 import Background from './Background';
-const UpdateTask = ({navigation, route}) => {
+const CreateTask = ({navigation}) => {
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
-  const id = route.params.id;
   const authContext = React.useContext(AuthContext);
   //probably would be better to pass in the data as a prop but this is okay for now
-  const fetchTask = async () => {
+  const createTask = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tasks/${id}/`, {
+      const response = await fetch(`http://127.0.0.1:8000/tasks/create/`, {
+        method: 'POST',
         headers: {
           Authorization: `Token ${authContext.authState.accessToken}`,
-        },
-      });
-      const data = await response.json();
-      console.log('Task fetched:', data.title);
-      setTitle(data.title);
-      setName(data.name);
-    } catch (error) {
-      alert('Error fetching task');
-      console.error('Error fetching task:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchTask();
-  }, [id]);
-
-  const handleEdit = async () => {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/tasks/${id}/`, {
-        method: 'PATCH',
-        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Token ${authContext.authState.accessToken}`,
         },
         body: JSON.stringify({
           title: title,
@@ -53,46 +31,31 @@ const UpdateTask = ({navigation, route}) => {
       });
       navigation.navigate('Home');
     } catch (error) {
-      alert('Error updating task');
-      console.error('Error updating task:', error);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/tasks/${id}/`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Token ${authContext.authState.accessToken}`,
-        },
-      });
-      navigation.navigate('Home');
-    } catch (error) {
-      alert('Error deleting task');
-      console.error('Error deleting task:', error);
+      console.error('Error fetching task:', error);
+      alert('Error creating task');
     }
   };
 
   return (
     <Background>
       <SafeAreaView style={styles.main}>
-        <Text style={styles.title}>Update Task</Text>
+        <Text style={styles.title}>Create Task</Text>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            value={title}
+            placeholder="Title"
             onChangeText={text => setTitle(text)}
           />
           <TextInput
             style={styles.input}
-            value={name}
+            placeholder="Description"
             multiline={true} // Set multiline to true
             numberOfLines={10} // Set the number of lines to display
             onChangeText={text => setName(text)}
           />
-          <Button title="Done" onPress={handleEdit} />
+          <Button title="Create" onPress={createTask} />
+          <Button title="Cancel" onPress={() => navigation.goBack()} />
         </View>
-        <Button title="Delete" onPress={handleDelete} />
       </SafeAreaView>
     </Background>
   );
@@ -150,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UpdateTask;
+export default CreateTask;

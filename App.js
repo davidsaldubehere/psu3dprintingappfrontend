@@ -12,6 +12,7 @@ import CreateAccount from './components/CreateAccount';
 import Process from './components/Process';
 import Profile from './components/Profile';
 import UpdateTask from './components/UpdateTask';
+import CreateTask from './components/CreateTask';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -26,6 +27,11 @@ function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateTask"
+          component={CreateTask}
           options={{headerShown: false}}
         />
         <Stack.Screen
