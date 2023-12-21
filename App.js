@@ -13,6 +13,7 @@ import Process from './components/Process';
 import Profile from './components/Profile';
 import UpdateTask from './components/UpdateTask';
 import CreateTask from './components/CreateTask';
+import CreateAnnouncements from './components/CreateAnnouncements';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -49,6 +50,12 @@ function App() {
           component={Members}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="CreateAnnouncements"
+          component={CreateAnnouncements}
+          options={{headerShown: false}}
+        />
+
         <Stack.Screen
           name="Message"
           component={Message}

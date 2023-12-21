@@ -13,7 +13,7 @@ function HomeScreen({navigation}) {
       <SafeAreaView style={styles.main}>
         <Text style={styles.title}>3D Printing Club</Text>
         <QuickNav navigation={navigation} />
-        <Announcements />
+        <Announcements navigation={navigation} />
         <Tasks navigation={navigation} />
         <Footer navigation={navigation} />
       </SafeAreaView>

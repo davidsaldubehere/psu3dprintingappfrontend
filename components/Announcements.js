@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,7 +6,9 @@ import {
   ScrollView,
   ImageBackground,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
+import {useFocusEffect} from '@react-navigation/native';
 import {AuthContext} from './AuthContext';
 function getRandomPastelColor() {
   const hue = Math.floor(Math.random() * 30) + 230; // Adjust the range to generate purplish hues
@@ -14,23 +16,58 @@ function getRandomPastelColor() {
   return pastelColor;
 }
 
-function Announcements() {
+function Announcements({navigation}) {
   const [announcements, setAnnouncements] = useState([]);
   const authContext = React.useContext(AuthContext);
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/announcements/', {
-      headers: {
-        Authorization: `Token ${authContext.authState.accessToken}`,
-      },
-    })
-      .then(response => response.json())
-      .then(data => setAnnouncements(data))
-      .catch(error => console.error(error));
-  }, []);
+  const [editPerms, setEditPerms] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch('http://127.0.0.1:8000/announcements/', {
+            headers: {
+              Authorization: `Token ${authContext.authState.accessToken}`,
+            },
+          });
+          const data = await response.json();
+          console.log(data);
+          setAnnouncements(data);
+
+          const editPermsResponse = await fetch(
+            'http://127.0.0.1:8000/users/is_staff/',
+            {
+              headers: {
+                Authorization: `Token ${authContext.authState.accessToken}`,
+              },
+            },
+          );
+          const editPermsData = await editPermsResponse.json();
+          setEditPerms(editPermsData.is_staff);
+        } catch (error) {
+          alert('Unable to reach server');
+          console.error(error);
+        }
+      };
+
+      fetchData();
+    }, [authContext.authState.accessToken]),
+  );
 
   return (
     <View>
-      <Text style={styles.title}>Announcements</Text>
+      <Text style={styles.title}>
+        Announcements
+        {editPerms && (
+          <Icon.Button
+            name="edit"
+            size={20}
+            backgroundColor="transparent"
+            style={styles.button}
+            onPress={() => navigation.navigate('CreateAnnouncements')}
+          />
+        )}
+      </Text>
       <ScrollView style={styles.scrollView} horizontal={true}>
         {announcements.map(announcement => (
           <View key={announcement.id} style={styles.shadow}>
@@ -63,6 +100,9 @@ const styles = StyleSheet.create({
   scrollView: {
     marginLeft: 10,
   },
+  button: {
+    top: 7,
+  },
   textInfo: {
     fontSize: 14,
   },
@@ -88,7 +128,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%',
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.43)',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },

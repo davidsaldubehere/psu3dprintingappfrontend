@@ -32,7 +32,7 @@ function QuickNav({navigation}) {
             <TouchableOpacity
               style={styles.navBorder}
               onPress={() => navigation.navigate('Profile')}>
-              <Text style={styles.infoText}>Profile</Text>
+              <Text style={styles.infoText}>Settings</Text>
             </TouchableOpacity>
           </View>
         </View>

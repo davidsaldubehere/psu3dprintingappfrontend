@@ -15,19 +15,20 @@ import Tasks from './Tasks';
 import Footer from './Footer';
 
 function Message({navigation, route}) {
-  const receivedData = route.params?.presetMessage || 'Please enter a message';
+  const receivedData = route.params?.presetMessage;
 
   const [message, setMessage] = useState('');
+  // Set the initial value of message to the preset message
+  // If the preset message is undefined, set the initial value to an empty string
+  useState(() => {
+    setMessage(receivedData ?? '');
+  }, [receivedData]);
+
   const handleSubmit = () => {
     // Perform form submission logic here
     if (message.trim() === '') {
       //try get the preset message
-      if (!route.params?.presetMessage) {
-        alert('Please enter a message');
-      } else {
-        alert('Message submitted successfully');
-        navigation.navigate('Home');
-      }
+      alert('Please enter a message');
     } else {
       // Submit the form
       alert('Message submitted successfully');
@@ -47,7 +48,7 @@ function Message({navigation, route}) {
         </Text>
         <TextInput
           style={styles.input}
-          placeholder={receivedData}
+          placeholder="Enter your message here"
           value={message}
           onChangeText={setMessage}
           multiline={true} // Set multiline to true
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
 
   input: {
     borderRadius: 10,
+    height: 150,
     padding: 10,
     margin: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.63)',

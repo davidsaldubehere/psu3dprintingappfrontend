@@ -47,7 +47,7 @@ const CreateTask = ({navigation}) => {
             onChangeText={text => setTitle(text)}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input, {height: 200}]}
             placeholder="Description"
             multiline={true} // Set multiline to true
             numberOfLines={10} // Set the number of lines to display
