@@ -19,11 +19,14 @@ const UpdateTask = ({navigation, route}) => {
   //probably would be better to pass in the data as a prop but this is okay for now
   const fetchTask = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tasks/${id}/`, {
-        headers: {
-          Authorization: `Token ${authContext.authState.accessToken}`,
+      const response = await fetch(
+        `https://psuwebdevclub.pythonanywhere.com/tasks/${id}/`,
+        {
+          headers: {
+            Authorization: `Token ${authContext.authState.accessToken}`,
+          },
         },
-      });
+      );
       const data = await response.json();
       console.log('Task fetched:', data.title);
       setTitle(data.title);
@@ -40,17 +43,20 @@ const UpdateTask = ({navigation, route}) => {
 
   const handleEdit = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tasks/${id}/`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${authContext.authState.accessToken}`,
+      const response = await fetch(
+        `https://psuwebdevclub.pythonanywhere.com/tasks/${id}/`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${authContext.authState.accessToken}`,
+          },
+          body: JSON.stringify({
+            title: title,
+            name: name,
+          }),
         },
-        body: JSON.stringify({
-          title: title,
-          name: name,
-        }),
-      });
+      );
       navigation.navigate('Home');
     } catch (error) {
       alert('Error updating task');
@@ -60,12 +66,15 @@ const UpdateTask = ({navigation, route}) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tasks/${id}/`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Token ${authContext.authState.accessToken}`,
+      const response = await fetch(
+        `https://psuwebdevclub.pythonanywhere.com/tasks/${id}/`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Token ${authContext.authState.accessToken}`,
+          },
         },
-      });
+      );
       navigation.navigate('Home');
     } catch (error) {
       alert('Error deleting task');
@@ -135,14 +144,14 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.43)',
     borderRadius: 10,
   },
   input: {
     borderRadius: 10,
     padding: 10,
     margin: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.43)',
   },
   error: {
     color: 'red',

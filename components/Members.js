@@ -19,7 +19,7 @@ function Members({navigation}) {
   const [users, setUsers] = useState([]);
   const authContext = React.useContext(AuthContext);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/users/', {
+    fetch('https://psuwebdevclub.pythonanywhere.com/users/', {
       headers: {
         Authorization: `Token ${authContext.authState.accessToken}`,
       },

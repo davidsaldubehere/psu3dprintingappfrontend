@@ -44,7 +44,7 @@ function CreateAccount({navigation}) {
 
   const handleLogin = () => {
     if (validateForm()) {
-      fetch('http://127.0.0.1:8000/users/create/', {
+      fetch('https://psuwebdevclub.pythonanywhere.com/users/create/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

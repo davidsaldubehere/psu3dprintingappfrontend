@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 import {useContext, useCallback} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import QuickNav from './QuickNav';
@@ -34,11 +35,14 @@ function PrinterStatus({navigation}) {
     useCallback(() => {
       const fetchData = async () => {
         try {
-          const response = await fetch('http://127.0.0.1:8000/printers/', {
-            headers: {
-              Authorization: `Token ${authContext.authState.accessToken}`,
+          const response = await fetch(
+            'https://psuwebdevclub.pythonanywhere.com/printers/',
+            {
+              headers: {
+                Authorization: `Token ${authContext.authState.accessToken}`,
+              },
             },
-          });
+          );
           const data = await response.json();
           console.log(data);
           setPrinters(data);
@@ -53,7 +57,7 @@ function PrinterStatus({navigation}) {
           setEditedStatus(editedStatus);
 
           const editPermsResponse = await fetch(
-            'http://127.0.0.1:8000/users/is_staff/',
+            'https://psuwebdevclub.pythonanywhere.com/users/is_staff/',
             {
               headers: {
                 Authorization: `Token ${authContext.authState.accessToken}`,
@@ -97,7 +101,7 @@ function PrinterStatus({navigation}) {
   const handleSaveChanges = async printerId => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/printers/${printerId}/`,
+        `https://psuwebdevclub.pythonanywhere.com/printers/${printerId}/`,
         {
           method: 'PATCH',
           headers: {
@@ -144,7 +148,21 @@ function PrinterStatus({navigation}) {
     <Background>
       <SafeAreaView style={styles.main}>
         <View style={{flex: 0.9}}>
-          <Text style={styles.title}>Printer Status</Text>
+          <Text style={styles.title}>
+            Printer Status
+            {editPerms && (
+              <Icon.Button
+                name="edit"
+                size={20}
+                backgroundColor="transparent"
+                onPress={() => navigation.navigate('CreatePrinter')}
+              />
+            )}
+          </Text>
+          <Text
+            style={{fontStyle: 'italic', marginLeft: 20, marginVertical: 20}}>
+            Click to reveal printer specs
+          </Text>
           <ScrollView style={styles.scrollView}>
             {printers.map(p => (
               <View key={p.id} style={styles.shadow}>
@@ -253,6 +271,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: 'bold',
   },
+
   specs: {
     marginTop: 10,
     fontSize: 20,

@@ -18,17 +18,20 @@ const CreateTask = ({navigation}) => {
   //probably would be better to pass in the data as a prop but this is okay for now
   const createTask = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tasks/create/`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Token ${authContext.authState.accessToken}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://psuwebdevclub.pythonanywhere.com/tasks/create/`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Token ${authContext.authState.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: title,
+            name: name,
+          }),
         },
-        body: JSON.stringify({
-          title: title,
-          name: name,
-        }),
-      });
+      );
       navigation.navigate('Home');
     } catch (error) {
       console.error('Error fetching task:', error);
@@ -98,7 +101,7 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.43)',
     borderRadius: 10,
   },
   input: {
@@ -106,7 +109,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     margin: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.43)',
   },
   error: {
     color: 'red',

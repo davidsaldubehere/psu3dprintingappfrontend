@@ -7,15 +7,44 @@ import {
   Text,
   Button,
 } from 'react-native';
+import {useState, useContext, useCallback, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import QuickNav from './QuickNav';
 import Announcements from './Announcements';
 import Tasks from './Tasks';
 import Footer from './Footer';
 import {AuthContext} from './AuthContext';
-
+import {useFocusEffect} from '@react-navigation/native';
 function Profile({navigation}) {
   const authContext = React.useContext(AuthContext);
+  const [editPerms, setEditPerms] = useState(false);
+  function handleLogout() {
+    authContext.logout();
+    navigation.navigate('Login');
+  }
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const editPermsResponse = await fetch(
+            'https://psuwebdevclub.pythonanywhere.com/users/is_staff/',
+            {
+              headers: {
+                Authorization: `Token ${authContext.authState.accessToken}`,
+              },
+            },
+          );
+          const editPermsData = await editPermsResponse.json();
+          setEditPerms(editPermsData.is_staff);
+        } catch (error) {
+          alert('Unable to reach server');
+          console.error(error);
+        }
+      };
+
+      fetchData();
+    }, [authContext.authState.accessToken]),
+  );
   //color should be based on status
   return (
     <LinearGradient
@@ -33,7 +62,26 @@ function Profile({navigation}) {
             </Text>
           </View>
         </View>
-        <Button title="Log out" onPress={() => authContext.logout()} />
+        <View style={styles.shadow}>
+          <View style={styles.textContainer}>
+            <Text style={styles.name}>Officer Status:</Text>
+            <Text style={styles.textInfo}>
+              {editPerms ? (
+                'You have officer permissions'
+              ) : (
+                <Button
+                  title="Request Officer Permissions"
+                  onPress={() =>
+                    navigation.navigate('Message', {
+                      presetMessage: 'I would like officer permissions',
+                    })
+                  }></Button>
+              )}
+            </Text>
+          </View>
+        </View>
+
+        <Button title="Log out" onPress={handleLogout} />
         <Footer navigation={navigation} />
       </SafeAreaView>
     </LinearGradient>

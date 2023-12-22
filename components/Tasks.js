@@ -35,12 +35,12 @@ function Task({navigation, taskTitle, textInfo, editPerms, id}) {
           />
         )}
         <Icon.Button
-          name="check"
+          name="like2"
           size={20}
           backgroundColor="transparent"
           onPress={() =>
             navigation.navigate('Message', {
-              presetMessage: 'Hi, I would like to volunteer for example task',
+              presetMessage: `Hi, I would like to volunteer to help with ${taskTitle}.`,
             })
           }
         />
@@ -56,16 +56,19 @@ function Tasks({navigation}) {
     useCallback(() => {
       const fetchData = async () => {
         try {
-          const tasksResponse = await fetch('http://127.0.0.1:8000/tasks/', {
-            headers: {
-              Authorization: `Token ${authContext.authState.accessToken}`,
+          const tasksResponse = await fetch(
+            'https://psuwebdevclub.pythonanywhere.com/tasks/',
+            {
+              headers: {
+                Authorization: `Token ${authContext.authState.accessToken}`,
+              },
             },
-          });
+          );
           const tasksData = await tasksResponse.json();
           setTasks(tasksData);
 
           const editPermsResponse = await fetch(
-            'http://127.0.0.1:8000/users/is_staff/',
+            'https://psuwebdevclub.pythonanywhere.com/users/is_staff/',
             {
               headers: {
                 Authorization: `Token ${authContext.authState.accessToken}`,
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
   shadow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     borderRadius: 10,
     padding: 10,
     margin: 10,

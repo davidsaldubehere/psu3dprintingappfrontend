@@ -14,6 +14,7 @@ import Profile from './components/Profile';
 import UpdateTask from './components/UpdateTask';
 import CreateTask from './components/CreateTask';
 import CreateAnnouncements from './components/CreateAnnouncements';
+import CreatePrinter from './components/CreatePrinter';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -38,6 +39,11 @@ function App() {
         <Stack.Screen
           name="Profile"
           component={Profile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreatePrinter"
+          component={CreatePrinter}
           options={{headerShown: false}}
         />
         <Stack.Screen

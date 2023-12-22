@@ -25,17 +25,20 @@ function Announcements({navigation}) {
     useCallback(() => {
       const fetchData = async () => {
         try {
-          const response = await fetch('http://127.0.0.1:8000/announcements/', {
-            headers: {
-              Authorization: `Token ${authContext.authState.accessToken}`,
+          const response = await fetch(
+            'https://psuwebdevclub.pythonanywhere.com/announcements/',
+            {
+              headers: {
+                Authorization: `Token ${authContext.authState.accessToken}`,
+              },
             },
-          });
+          );
           const data = await response.json();
           console.log(data);
           setAnnouncements(data);
 
           const editPermsResponse = await fetch(
-            'http://127.0.0.1:8000/users/is_staff/',
+            'https://psuwebdevclub.pythonanywhere.com/users/is_staff/',
             {
               headers: {
                 Authorization: `Token ${authContext.authState.accessToken}`,

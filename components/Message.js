@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     height: 150,
     padding: 10,
     margin: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.43)',
   },
   navBorder: {
     backgroundColor: '#749AF9',

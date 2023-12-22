@@ -46,13 +46,16 @@ function LoginPage({navigation}) {
       };
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/api-token-auth/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'https://psuwebdevclub.pythonanywhere.com/api-token-auth/',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
           },
-          body: JSON.stringify(data),
-        });
+        );
         const json = await response.json();
         var token;
         try {

@@ -19,7 +19,7 @@ const CreateAnnouncements = ({navigation}) => {
   const createTask = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/announcements/create/`,
+        `https://psuwebdevclub.pythonanywhere.com/announcements/create/`,
         {
           method: 'POST',
           headers: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
     borderRadius: 10,
   },
   input: {
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     margin: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.63)',
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
   },
   error: {
     color: 'red',
