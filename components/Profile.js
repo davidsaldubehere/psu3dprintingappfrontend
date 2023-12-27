@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   Button,
+  Alert,
 } from 'react-native';
 import {useState, useContext, useCallback, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,6 +22,43 @@ function Profile({navigation}) {
   function handleLogout() {
     authContext.logout();
     navigation.navigate('Login');
+  }
+  function handleDeleteAccount() {
+    Alert.alert(
+      'Delete Account',
+      'This action is permanent. If you need to modify your account, please contact an officer via the officer contact form.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const response = await fetch(
+                'https://psuwebdevclub.pythonanywhere.com/users/delete/',
+                {
+                  method: 'DELETE',
+                  headers: {
+                    Authorization: `Token ${authContext.authState.accessToken}`,
+                  },
+                },
+              );
+              if (response.ok) {
+                navigation.navigate('Login');
+              } else {
+                alert('Unable to delete account. Contact an officer.');
+              }
+            } catch (error) {
+              console.error(error);
+              alert('Unable to reach server');
+            }
+          },
+        },
+      ],
+    );
   }
   useFocusEffect(
     useCallback(() => {
@@ -82,6 +120,11 @@ function Profile({navigation}) {
         </View>
 
         <Button title="Log out" onPress={handleLogout} />
+        <Button
+          title="Delete Account"
+          onPress={handleDeleteAccount}
+          color={'red'}
+        />
         <Footer navigation={navigation} />
       </SafeAreaView>
     </LinearGradient>
