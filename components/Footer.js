@@ -1,27 +1,55 @@
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, useNavigation} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useRoute} from '@react-navigation/native';
+
 function Footer({navigation}) {
+  const route = useRoute();
+  const navigateToProfile = () => {
+    if (navigation.isFocused() && route.name == 'Profile') {
+      return;
+    }
+    navigation.navigate('Profile');
+  };
+
+  const navigateToHome = () => {
+    console.log(navigation);
+    if (
+      (navigation.isFocused() && route.name == 'Home') ||
+      route.name == 'Process'
+    ) {
+      return;
+    }
+    navigation.navigate('Home');
+  };
+
+  const navigateToMessage = () => {
+    if (navigation.isFocused() && route.name == 'Message') {
+      return;
+    }
+    navigation.navigate('Message');
+  };
+
   return (
     <View style={styles.container}>
       <Icon.Button
         name="setting"
         size={20}
         backgroundColor="transparent"
-        onPress={() => navigation.navigate('Profile')}
+        onPress={navigateToProfile}
         style={styles.button}
       />
       <Icon.Button
         name="home"
         size={20}
         backgroundColor="transparent"
-        onPress={() => navigation.navigate('Home')}
+        onPress={navigateToHome}
         style={styles.button}
       />
       <Icon.Button
         name="message1"
         size={20}
         backgroundColor="transparent"
-        onPress={() => navigation.navigate('Message')}
+        onPress={navigateToMessage}
         style={styles.button}
       />
     </View>
@@ -42,4 +70,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
 });
+
 export default Footer;
