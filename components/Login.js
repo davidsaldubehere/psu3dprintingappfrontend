@@ -96,6 +96,7 @@ function LoginPage({navigation}) {
             style={styles.input}
             placeholder="Username"
             spellCheck={false}
+            placeholderTextColor={'grey'}
             onChangeText={text => setUsername(text)}
           />
           {usernameError ? (
@@ -105,6 +106,7 @@ function LoginPage({navigation}) {
             style={styles.input}
             placeholder="Password"
             secureTextEntry={true}
+            placeholderTextColor={'grey'}
             onChangeText={text => setPassword(text)}
           />
           {passwordError ? (

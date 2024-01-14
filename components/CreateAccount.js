@@ -82,6 +82,7 @@ function CreateAccount({navigation}) {
           <TextInput
             style={styles.input}
             placeholder="Username"
+            placeholderTextColor={'grey'}
             onChangeText={text => setUsername(text)}
           />
           {usernameError ? (
@@ -91,6 +92,7 @@ function CreateAccount({navigation}) {
             style={styles.input}
             placeholder="Password"
             secureTextEntry={true}
+            placeholderTextColor={'grey'}
             onChangeText={text => setPassword(text)}
           />
           {passwordError ? (
@@ -99,6 +101,7 @@ function CreateAccount({navigation}) {
           <TextInput
             style={styles.input}
             placeholder="PSU Email"
+            placeholderTextColor={'grey'}
             onChangeText={text => setEmail(text)}
           />
           {passwordError ? (
